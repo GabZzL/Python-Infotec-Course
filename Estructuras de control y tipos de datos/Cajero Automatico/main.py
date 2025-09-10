@@ -15,21 +15,59 @@ ningún billete.
 billetes de cada denominación.
 """
 
-fithty_bill = 10
-hundred_bill = 10
-two_hundred_bill = 10
-five_hundred_bill = 10
-thousand_bill = 10
-6
-def atm(amount):
-    global fithty_bill, hundred_bill, two_hundred_bill, five_hundred_bill, thousand_bill
+# Variables para contar billetes
+FIFTY_BILL = 10
+ONE_HUNDRED_BILL = 10
+TWO_HUNDRED_BILL = 10
+FIVE_HUNDRED_BILL = 10
+THOUSAND_BILL = 10
 
-    if (amount > 0):
-        print("yes")
-    else:
-        print("no")
+# Variables para entregar billetes
+FIFTY_BILL_COUNT = 0
+ONE_HUNDRED_BILL_COUNT = 0
+TWO_HUNDRED_BILL_COUNT = 0
+FIVE_HUNDRED_BILL_COUNT = 0
+THOUSAND_BILL_COUNT = 0
 
+IS_RUNNING = True
+
+def calculate(amount):  
+    # Use a dictionary to map denominations to their variable names
+    denominations = {
+        1000: 'THOUSAND_BILL',
+        500: 'FIVE_HUNDRED_BILL',
+        200: 'TWO_HUNDRED_BILL',
+        100: 'ONE_HUNDRED_BILL',
+        50: 'FIFTY_BILL'
+    }
+
+    # Iterar en los valores en orden decendente
+    for bill, var_name in denominations.items():
+        if amount >= bill and globals()[var_name] > 0:
+            amount -= bill
+            # globals() para modificar las variables globales
+            globals()[var_name] -= 1
+            globals()[var_name + "_COUNT"] += 1
+            return amount
+
+# Inicio del programa
+# Pedir un monto al usuario
 answer = input("Insert the total amount (0 to close the program): ")
+# Transformar la entrada a un numero entero
 amount = int(answer)
 
-atm(amount)
+# Loop principal
+# se ejecutara hasta que el monto sea menor que el valor del billete con menos valor 
+while IS_RUNNING:
+    if amount >= 50:
+        amount = calculate(amount)
+    else:
+        IS_RUNNING = False
+
+print(f"Here's your change {amount}")
+print("YOUR BILLS:")
+print(f"THOUSAND_BILL: {THOUSAND_BILL_COUNT}")
+print(f"FIVE HUNDRED BILL: {FIVE_HUNDRED_BILL_COUNT}")
+print(f"TWO HUNDRED BILL: {TWO_HUNDRED_BILL_COUNT}")
+print(f"ONE HUNDRED BILL: {ONE_HUNDRED_BILL_COUNT}")
+print(f"FYFTY BILL: {FIFTY_BILL_COUNT}")
