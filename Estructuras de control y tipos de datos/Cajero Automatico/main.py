@@ -59,11 +59,15 @@ amount = int(answer)
 # Loop principal
 # se ejecutara hasta que el monto sea menor que el valor del billete con menos valor 
 while IS_RUNNING:
-    if amount >= 50:
+    if amount > 18500:
+        print('Invalid Amount')
+        IS_RUNNING = False
+    elif amount >= 50:
         amount = calculate(amount)
     else:
         IS_RUNNING = False
 
+# Mostrar resultados
 print(f"Here's your change {amount}")
 print("YOUR BILLS:")
 print(f"THOUSAND_BILL: {THOUSAND_BILL_COUNT}")
