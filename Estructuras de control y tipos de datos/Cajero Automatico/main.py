@@ -29,10 +29,12 @@ TWO_HUNDRED_BILL_COUNT = 0
 FIVE_HUNDRED_BILL_COUNT = 0
 THOUSAND_BILL_COUNT = 0
 
+# Variable para ejecutar el ciclo principal
 IS_RUNNING = True
 
+# Funcion para calcular el numero de billetes a entregar
 def calculate(amount):  
-    # Use a dictionary to map denominations to their variable names
+    # Crear un diccionario para asignar un valor al nombre de las variables
     denominations = {
         1000: 'THOUSAND_BILL',
         500: 'FIVE_HUNDRED_BILL',
@@ -52,6 +54,7 @@ def calculate(amount):
 
 # Inicio del programa
 # Pedir un monto al usuario
+print("ATM MACHINE")
 answer = input("Insert the total amount (0 to close the program): ")
 # Transformar la entrada a un numero entero
 amount = int(answer)
@@ -59,11 +62,14 @@ amount = int(answer)
 # Loop principal
 # se ejecutara hasta que el monto sea menor que el valor del billete con menos valor 
 while IS_RUNNING:
+    # Si el monto total supera la suma de todos los billetes, no retornar ninguno
     if amount > 18500:
         print('Invalid Amount')
         IS_RUNNING = False
+    # Si el monto es mayor o igual a 50, ejecutar la funcion
     elif amount >= 50:
         amount = calculate(amount)
+    # Terminar el programa
     else:
         IS_RUNNING = False
 
