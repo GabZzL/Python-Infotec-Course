@@ -90,3 +90,14 @@ initial_amount = 1000
 iva = iva_calculator(initial_amount)
 total = initial_amount + iva
 print(total)
+
+# RECURSION
+def factorial(num):
+    if num == 0 or num == 1:
+        return 1
+    else:
+        return num * factorial(num - 1)
+
+print("factorial: ")
+final_value = factorial(5)
+print(final_value) 
