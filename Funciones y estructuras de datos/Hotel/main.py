@@ -14,7 +14,11 @@ def hotel():
                     print(f"Room {type} is not available")
             case "release":
                 type = input("Select your room type(single or double)")
-                if type in rooms and rooms[type] < 2:
+                
+                if type == "single" and rooms[type] < 3:
+                    rooms[type] += 1
+                    print(f"Room has been released: {type}")
+                elif type == "double" and rooms[type] < 2:
                     rooms[type] += 1
                     print(f"Room has been released: {type}")
                 else:
