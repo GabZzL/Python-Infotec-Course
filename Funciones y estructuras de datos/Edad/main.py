@@ -61,6 +61,6 @@ def calculate_age():
         user_age += 1
        
     # Mostrar la edad 
-    print(user_age)
+    print(f"User age: {user_age} years old")
     
 calculate_age()
