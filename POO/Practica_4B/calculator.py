@@ -1,7 +1,7 @@
 # Clase Calculator
 class Calculator:
     # Definir el metodo constructor
-    def __init__(self):
+    def __init__(self, init_value):
         # numero 1, numero 2, historial
         self._records = []
         self._num1 = 0

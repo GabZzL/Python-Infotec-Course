@@ -38,10 +38,10 @@ def expressions(entry1, entry2, operation):
 
 # Clase principal para ejecutar el programa
 def main():
-    # Crear una instancia de la clase Calculator
-    calc = Calculator()
     # Mensaje de presentacion
     print('Basic calculator. "Exit" to end the program, "records" to take a look at the previous operations\n')
+    # Crear una instancia de la clase Calculator
+    calc = Calculator(0)
     # Bucle while para controlar las ejecuciones del programa
     while True:
         # Pedir la operacion a realizar
