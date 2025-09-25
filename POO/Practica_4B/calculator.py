@@ -1,71 +1,74 @@
 # Clase Calculator
 class Calculator:
     # Definir el metodo constructor
-    def __init__(self, init_value):
-        # numero 1, numero 2, historial
+    def __init__(self):
+        # Definir los valores privados
+        self._numbers = []
+        self._operators = []
         self._records = []
-        self._num1 = 0
-        self._num2 = 0
-    # Getters, obtener el valor de los atributos protegidos
-    @property
-    def num1(self):
-            return self._num1
-    
-    @property
-    def num2(self):
-            return self._num2
-    # Setters, cambiar el valor de los atributos protegidos
-    @num1.setter   
-    def num1(self, new_num1):
-        # Verificar que los valores sean de tipo int, o float
-        if type(new_num1) in (int, float):
-            self._num1 = new_num1
-        else:
-            raise ValueError('Insert a valid number')
-        
-    @num2.setter   
-    def num2(self, new_num2):
-        if type(new_num2) in (int, float):
-            self._num2 = new_num2
-        else:
-            raise ValueError('Insert a valid number')
+        self._total = 0
+    # Asignar el primer valor, y agregarlo a la lista de numeros
+    def assign_value(self, first_value):
+        self._total = first_value
+        self._numbers.append(first_value)
+    # Metodo para registrar los numeros, y operaciones
+    def register_calculation(self, operation, value):
+        self._numbers.append(value)
+        self._operators.append(operation)
     # Metodo para registrar las operaciones en el historial
-    def _register(self, operation, value):
-        result = {f'{self._num1} {operation} {self._num2}': value}
-        self._records.append(result)
-    # Metodo para mostrar los valores del historial al usuario
-    def look_register(self):
-        if not self._records:
+    def register_operation(self):
+        if len(self._operators) == 0:
             print('There are not operations')
             return
-        else:
-            print('Operation Records')
-            i = 1
-            for op in self._records:
-                print(f'Operarion number {i} --> {op}')
-                i += 1
-    # Metodo para ejecutar la suma, y llamar al metodo '_register'
-    def sum(self):
-        result = self._num1 + self._num2
-        self._register('+', result)
-        return result
-    # Metodo para ejecutar la resta, y llamar al metodo '_register'
-    def sub(self):
-        result = self._num1 - self._num2
-        self._register('-', result)
-        return result
-    # Metodo para ejecutar la multiplicacion, y llamar al metodo '_register'
-    def mul(self):
-        result = self._num1 * self._num2
-        self._register('*', result)
-        return result
-    # Metodo para ejecutar la division, y llamar al metodo '_register'
-    def div(self):
-        result = self._num1 / self._num2
-        self._register('/', result)
-        return result
-    # Metodo para ejecutar la potencia, y llamar al metodo '_register'
-    def power(self):
-        result = pow(self._num1, self._num2)
-        self._register('^', result)
-        return result
+        operation = ''
+        total_numbers = len(self._numbers)
+        for i in range(total_numbers):
+            if i == total_numbers - 1:
+                operation += f' {self._numbers[total_numbers - 1]} = {self._total}'
+            else:
+                operation += f'{self._numbers[i]} {self._operators[i]} '
+        # Agregar la operacion al historial
+        self._records.append(operation)
+    # Metodo para mostrar los valores del historial al usuario
+    def look_records(self):
+        print('these are your operations')
+        for operation in self._records:
+            print(operation)
+    # Metodo para ejecutar la suma, y llamar al metodo 'register_calculation'
+    def sum(self, value):
+        self._total += value
+        self.register_calculation('+', value)
+        return self
+    # Metodo para ejecutar la resta, y llamar al metodo 'register_calculation'
+    def sub(self, value):
+        self._total -= value
+        self.register_calculation('-', value)
+        return self
+    # Metodo para ejecutar la multiplicacion, y llamar al metodo 'register_calculation'
+    def multiply(self, value):
+        self._total *= value
+        self.register_calculation('*', value)
+        return self
+    # Metodo para ejecutar la division, y llamar al metodo 'register_calculation'
+    def divide(self, value):
+        if value == 0:
+            raise ValueError('Cannot divide by zero')
+        self._total /= value
+        self.register_calculation('/', value)
+        return self
+    # Metodo para ejecutar la potencia, y llamar al metodo 'register_calculation'
+    def power(self, value):
+        self._total **= value
+        self.register_calculation('^', value)
+        return self
+    # Obtener el total de la operacion
+    def get_total(self):
+        self.register_operation()
+        return self._total
+    # Limpiar los valores privados
+    def clear(self):
+        self._total = 0
+        self._numbers = []
+        self._operators = []
+        return self
+        

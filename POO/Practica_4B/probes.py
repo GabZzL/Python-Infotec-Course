@@ -29,6 +29,7 @@ class Calculator:
         """Divides the current total by a number."""
         if number == 0:
             raise ValueError("Cannot divide by zero.")
+        
         self.total /= number
         return self
 

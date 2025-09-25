@@ -13,35 +13,26 @@ formato correcto.
 4. Usar la modularidad para dividir en módulos la calculadora y
 permitir que las clases tengan su propio archivo .py.
 """    
-# Funcion para verificar las entradas (numeros, y operacion)
-def expressions(entry1, entry2, operation):
-    # Asegurar que los numeros se puedan convertir a float
+# Funcion para validar los numeros 
+def validate_number(entry):
     try:
-        num1 = float(entry1)
-        num2 = float(entry2)
-        # Verificar la operacio a realizar
-        if operation in ['+', '-', '*', '/', '^']:
-            # Si la operacion es '/', y el divisor es '0', mostrar un error
-            if operation == '/' and num2 == 0:
-                print('Error. Cannot divide by zero')
-                return None
-            # Si la operacion es '^', y la potencia es 'negativa', mostrar un error
-            if operation == '^' and num2 < 0:
-                print('Error. Cannot power by a negative number')
-                return None
-            # Si no hay errorres, retornar los numeros, y la operacion
-            return num1, num2, operation
-    # Mostrar un error al usuario, si las entradas no se pueden convertir
+        number = float(entry)
+        return number
     except ValueError:
-        print('Error. Please insert a valid number')
+        print('Error. Invalid number')
         return None
-
+# Funcion para validar las operaciones
+def validate_operation(entry):
+    if entry in ['+', '-', '*', '/', '^', 'result']:
+        return entry
+    return None
+    
 # Clase principal para ejecutar el programa
 def main():
     # Mensaje de presentacion
-    print('Basic calculator. "Exit" to end the program, "records" to take a look at the previous operations\n')
-    # Crear una instancia de la clase Calculator
-    calc = Calculator(0)
+    print('Basic calculator. "Exit" to end the program, "records" to take a look at the previous operations')
+    # Crear la instancia 'calc'
+    calc = Calculator()
     # Bucle while para controlar las ejecuciones del programa
     while True:
         # Pedir la operacion a realizar
@@ -52,36 +43,59 @@ def main():
             break
         # records, mostrar el historial
         if entry.strip().lower() == 'records':
-            calc.look_register()
+            calc.look_records()
             continue
         # operation, realizar una operacion matematica
         if entry.strip().lower() == 'operation':
-            # Pedir el numero 1, numero 2, y la operacion a realizar
-            num1 = input('First number: ')
-            operation = input('Operation (+, -, *, /, ^): ')
-            num2 = input('Second number: ')
-            # Validar las entradas
-            result = expressions(num1, num2, operation)
-            # Si las entradas no son validas, salir del ciclo actual, e iniciar uno nuevo
-            if not result:
-                print('Invalid expression. Insert a valid operation (ex. 5 + 5)')
+            # Pedir el primer numero
+            num1_entry = input('Number: ')
+            # Validar la entrada
+            num1 = validate_number(num1_entry)
+            if num1 is None:
+                print('Invalid Number. Please insert a valid number')
                 continue
-            # Obtener los valores ya validados
-            num1, num2, op = result
-            # Guardar los valores de los numeros en los atributos de la instancia 'calc'
-            calc.num1 = num1
-            calc.num2 = num2
-            # Realizar la operacion seleccionada
-            if op == '+':
-                print('Result:', calc.sum())
-            elif op == '-':
-                print('Result:', calc.sub())
-            elif op == '*':
-                print('Result:', calc.mul())
-            elif op == '/':
-                print('Result:', calc.div())
-            elif op == '^':
-                print('Resutlt', calc.power())
+            # Asignar el primer valor
+            calc.assign_value(num1)
+             # i, este valor sirve para saber el numero del ciclo
+            i = 0
+            # Ciclo para controlar el numero de operaciones
+            while True:
+                # Mensaje para mostrar las opciones
+                message = 'Operation(+, -, *, /, ^) or result: '
+                # Cambiar el mansaje en el primer ciclo
+                if i == 0:
+                    message = 'Operation(+, -, *, /, ^): '
+                    i += 1
+                # Pedir la operacion
+                operation_entry = input(message)
+                # Validar la operacion
+                operation = validate_operation(operation_entry)
+                if not operation:
+                    print('Invalid operation. Please insert a valid operation')
+                    continue
+                 # result, mostrar el resultado de los calculos
+                if operation.strip().lower() == 'result':
+                    print(f'result: {calc.get_total()}\n')
+                    calc.clear()
+                    break
+                # Pedir el segundo numero
+                num2_entry = input('Number: ')
+                # Validar las entrada
+                num2 = validate_number(num2_entry)
+                if not num2:
+                    print('Invalid Number. Please insert a valid number')
+                    continue
+                # Realizar la operacion seleccionada
+                if operation == '+':
+                    calc.sum(num2)
+                elif operation == '-':
+                    calc.sub(num2)
+                elif operation == '*':
+                    calc.multiply(num2)
+                elif operation == '/':
+                    calc.divide(num2)
+                elif operation == '^':
+                    calc.power(num2)
         # si la opcion es diferente, pedir ingresar una opcion valida
         else:
             print('Invalid operation. Insert a valid one')
